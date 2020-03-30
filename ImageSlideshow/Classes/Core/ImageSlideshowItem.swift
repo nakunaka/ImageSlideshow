@@ -19,6 +19,10 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
 
     /// Input Source for the item
     public let image: InputSource
+    
+    public var loadedImageHandler: ((UIImage?, UIImageView) -> Void)?
+    
+    public var cornerRadius: CGFloat = 22
 
     /// Guesture recognizer to detect double tap to zoom
     open var gestureRecognizer: UITapGestureRecognizer?
@@ -141,10 +145,18 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
                 }else{
                     self?.imageView.image = image
                 }
+                
+                if let cornerRadius = self?.cornerRadius {
+                    self?.imageView.layer.cornerRadius = cornerRadius
+                    self?.imageView.clipsToBounds = true
+                }
+                
                 self?.activityIndicator?.hide()
                 self?.loadFailed = image == nil
                 self?.isLoading = false
-                
+                if let image = image, let imageView = self?.imageView {
+                    self?.loadedImageHandler?(image, imageView)
+                }
                 self?.setNeedsLayout()
             }
         }

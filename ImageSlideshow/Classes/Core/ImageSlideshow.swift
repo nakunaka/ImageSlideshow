@@ -57,6 +57,8 @@ open class ImageSlideshow: UIView {
 
     /// Scroll View to wrap the slideshow
     public let scrollView = UIScrollView()
+    
+    public var itemsSpace: CGFloat = 10
 
     /// Page Control shown in the slideshow
     @available(*, deprecated, message: "Use pageIndicator.view instead")
@@ -304,7 +306,7 @@ open class ImageSlideshow: UIView {
             if !view.zoomInInitially {
                 view.zoomOut()
             }
-            view.frame = CGRect(x: scrollView.frame.size.width * CGFloat(index), y: 0, width: scrollView.frame.size.width, height: scrollView.frame.size.height)
+            view.frame = CGRect(x: scrollView.frame.size.width * CGFloat(index) + itemsSpace, y: 0, width: scrollView.frame.size.width - itemsSpace * 2, height: scrollView.frame.size.height)
         }
 
         setScrollViewPage(scrollViewPage, animated: false)
